@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project (pngDrawer)
+project (Drawing)
 
 add_custom_command(OUTPUT vshader.o
   COMMAND objcopy --input binary --output elf64-x86-64 -B i386 vshader.glsl ${CMAKE_CURRENT_BINARY_DIR}/vshader.o
