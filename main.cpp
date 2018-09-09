@@ -4,34 +4,33 @@
 #include <iostream>
 #include <unistd.h>
 #include "displaypng.hpp"
-int main()
-{
-    Display *xdisplay = XOpenDisplay(nullptr);
-    if (xdisplay == nullptr)
-    {
-        std::cerr << "Error XOpenDisplay." << std::endl;
-        exit(EXIT_FAILURE);
-    }
 
-    Window xwindow = XCreateSimpleWindow(xdisplay, DefaultRootWindow(xdisplay), 100, 100, 640, 480,
-                                         1, BlackPixel(xdisplay, 0), WhitePixel(xdisplay, 0));
+int main() {
+  Display *xdisplay = XOpenDisplay(nullptr);
+  if (xdisplay == nullptr) {
+    std::cerr << "Error XOpenDisplay." << std::endl;
+    exit(EXIT_FAILURE);
+  }
 
-    XMapWindow(xdisplay, xwindow);
+  Window xwindow = XCreateSimpleWindow(
+      xdisplay, DefaultRootWindow(xdisplay), 100, 100, 640, 480, 1,
+      BlackPixel(xdisplay, 0), WhitePixel(xdisplay, 0));
 
-    EGLDisplay display = nullptr;
-    EGLContext context = nullptr;
-    EGLSurface surface = nullptr;
-    if (initializeEGL(xdisplay, xwindow, display, context, surface) < 0)
-    {
-        std::cerr << "Error initializeEGL." << std::endl;
-        exit(EXIT_FAILURE);
-    }
+  XMapWindow(xdisplay, xwindow);
 
-    mainloop(xdisplay, display, surface);
+  EGLDisplay display = nullptr;
+  EGLContext context = nullptr;
+  EGLSurface surface = nullptr;
+  if (initializeEGL(xdisplay, xwindow, display, context, surface) < 0) {
+    std::cerr << "Error initializeEGL." << std::endl;
+    exit(EXIT_FAILURE);
+  }
 
-    destroyEGL(display, context, surface);
-    XDestroyWindow(xdisplay, xwindow);
-    XCloseDisplay(xdisplay);
+  mainloop(xdisplay, display, surface);
 
-    return 0;
+  destroyEGL(display, context, surface);
+  XDestroyWindow(xdisplay, xwindow);
+  XCloseDisplay(xdisplay);
+
+  return 0;
 }
